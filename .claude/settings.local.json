@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(swift --version)",
+      "Bash(xcodebuild -version)",
+      "Read(//Applications/**)",
+      "Bash(open /Users/toyo/Codes/AppleMusicPlayer/AppleMusicPlayer.xcodeproj)"
+    ]
+  }
+}
