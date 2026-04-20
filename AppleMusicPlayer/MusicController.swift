@@ -74,6 +74,7 @@ final class MusicController: ObservableObject {
         pollingTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] _ in
             self?.tick()
         }
+        // .common keeps the timer firing during scroll/drag interactions (default .default mode pauses it)
         RunLoop.main.add(pollingTimer!, forMode: .common)
     }
 
@@ -91,10 +92,13 @@ final class MusicController: ObservableObject {
             player.pause()
         } else if isABRepeatEnabled, !isInGap {
             if loopGapSeconds > 0 {
+                // isInGap prevents the 100 ms tick from re-triggering this block during the wait
                 isInGap = true
                 player.pause()
                 gapTimer = Timer.scheduledTimer(withTimeInterval: loopGapSeconds, repeats: false) { [weak self] _ in
+                    // Timer callbacks are not actor-isolated; Task hops back to @MainActor
                     Task { @MainActor [weak self] in
+                        // isInGap may have been cleared by cancelGap() between the timer firing and this Task running
                         guard let self, self.isInGap else { return }
                         self.isInGap = false
                         self.seekInternal(to: self.pointA ?? 0)
@@ -131,6 +135,8 @@ final class MusicController: ObservableObject {
         if player.playbackState == .playing {
             player.pause()
         } else {
+            // Seek to A before resuming so that play always starts a fresh A→B run,
+            // not from wherever playback stopped (which is at B after the previous shot).
             if isOneShotEnabled, let a = pointA {
                 seekInternal(to: a)
             }
@@ -150,6 +156,9 @@ final class MusicController: ObservableObject {
 
     private func seekInternal(to time: Double) {
         let clamped = max(0, duration > 0 ? min(duration, time) : time)
+        // isSeeking suppresses tick() for 150 ms because MPMusicPlayerController.currentPlaybackTime
+        // briefly reports the pre-seek position after the property is set, which would cause a visible
+        // snap-back in the progress bar.
         isSeeking = true
         player.currentPlaybackTime = clamped
         playbackTime = clamped

@@ -16,7 +16,7 @@ struct ProgressBarView: View {
     var body: some View {
         GeometryReader { geo in
             let w = geo.size.width
-            let dur = max(duration, 1)
+            let dur = max(duration, 1) // guard against division by zero before a track is loaded
 
             ZStack(alignment: .leading) {
                 // Track background
@@ -59,8 +59,10 @@ struct ProgressBarView: View {
                     .animation(.spring(duration: 0.15), value: isDragging)
             }
             .frame(height: 36)
+            // Without this, GeometryReader/ZStack only hits on visible (non-transparent) pixels
             .contentShape(Rectangle())
             .gesture(
+                // minimumDistance: 0 lets a tap-in-place trigger a seek (not just a drag)
                 DragGesture(minimumDistance: 0)
                     .onChanged { value in
                         isDragging = true
@@ -86,6 +88,7 @@ struct ProgressBarView: View {
                 .fill(color)
                 .frame(width: 2, height: 18)
         }
+        // -1 centers the 2 pt wide line on the exact position; y: 8 aligns it with the track
         .offset(x: x.clamped(to: 0...1000) - 1, y: 8)
     }
 }
