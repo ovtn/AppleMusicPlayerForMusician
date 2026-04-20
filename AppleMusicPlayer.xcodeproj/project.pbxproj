@@ -15,7 +15,22 @@
 		AABB0006 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AABB0016 /* Assets.xcassets */; };
 		AABB0007 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AABB0017 /* MediaPlayer.framework */; };
 		AABB0008 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AABB0018 /* AVFoundation.framework */; };
+		AABB0102 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABB0100 /* Helpers.swift */; };
+		AABB0103 /* ABRepeatLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABB0101 /* ABRepeatLogic.swift */; };
+		AABB0114 /* TimeFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABB0111 /* TimeFormatterTests.swift */; };
+		AABB0115 /* ABRepeatLogicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABB0112 /* ABRepeatLogicTests.swift */; };
+		AABB0116 /* DoubleExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABB0113 /* DoubleExtensionsTests.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		AABB0123 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AABB0060 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AABB0040;
+			remoteInfo = AppleMusicPlayer;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		AABB0010 /* AppleMusicPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AppleMusicPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -28,6 +43,12 @@
 		AABB0017 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		AABB0018 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		AABB0019 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AABB0100 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
+		AABB0101 /* ABRepeatLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABRepeatLogic.swift; sourceTree = "<group>"; };
+		AABB0110 /* AppleMusicPlayerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppleMusicPlayerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AABB0111 /* TimeFormatterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeFormatterTests.swift; sourceTree = "<group>"; };
+		AABB0112 /* ABRepeatLogicTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABRepeatLogicTests.swift; sourceTree = "<group>"; };
+		AABB0113 /* DoubleExtensionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleExtensionsTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +72,8 @@
 				AABB0013 /* MusicController.swift */,
 				AABB0014 /* MediaPickerView.swift */,
 				AABB0015 /* ProgressBarView.swift */,
+				AABB0100 /* Helpers.swift */,
+				AABB0101 /* ABRepeatLogic.swift */,
 				AABB0016 /* Assets.xcassets */,
 				AABB0019 /* Info.plist */,
 			);
@@ -61,6 +84,7 @@
 			isa = PBXGroup;
 			children = (
 				AABB0010 /* AppleMusicPlayer.app */,
+				AABB0110 /* AppleMusicPlayerTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -78,9 +102,20 @@
 			isa = PBXGroup;
 			children = (
 				AABB0030 /* AppleMusicPlayer */,
+				AABB0117 /* AppleMusicPlayerTests */,
 				AABB0032 /* Frameworks */,
 				AABB0031 /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		AABB0117 /* AppleMusicPlayerTests */ = {
+			isa = PBXGroup;
+			children = (
+				AABB0111 /* TimeFormatterTests.swift */,
+				AABB0112 /* ABRepeatLogicTests.swift */,
+				AABB0113 /* DoubleExtensionsTests.swift */,
+			);
+			path = AppleMusicPlayerTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -103,6 +138,22 @@
 			productReference = AABB0010 /* AppleMusicPlayer.app */;
 			productType = "com.apple.product-type.application";
 		};
+		AABB0118 /* AppleMusicPlayerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AABB0120 /* Build configuration list for PBXNativeTarget "AppleMusicPlayerTests" */;
+			buildPhases = (
+				AABB0119 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AABB0124 /* PBXTargetDependency */,
+			);
+			name = AppleMusicPlayerTests;
+			productName = AppleMusicPlayerTests;
+			productReference = AABB0110 /* AppleMusicPlayerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -115,6 +166,10 @@
 				TargetAttributes = {
 					AABB0040 = {
 						CreatedOnToolsVersion = 16.0;
+					};
+					AABB0118 = {
+						CreatedOnToolsVersion = 16.0;
+						TestTargetID = AABB0040;
 					};
 				};
 			};
@@ -132,6 +187,7 @@
 			projectRoot = "";
 			targets = (
 				AABB0040 /* AppleMusicPlayer */,
+				AABB0118 /* AppleMusicPlayerTests */,
 			);
 		};
 /* End PBXProject section */
@@ -157,10 +213,30 @@
 				AABB0003 /* MusicController.swift in Sources */,
 				AABB0004 /* MediaPickerView.swift in Sources */,
 				AABB0005 /* ProgressBarView.swift in Sources */,
+				AABB0102 /* Helpers.swift in Sources */,
+				AABB0103 /* ABRepeatLogic.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AABB0119 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AABB0114 /* TimeFormatterTests.swift in Sources */,
+				AABB0115 /* ABRepeatLogicTests.swift in Sources */,
+				AABB0116 /* DoubleExtensionsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		AABB0124 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AABB0040 /* AppleMusicPlayer */;
+			targetProxy = AABB0123 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		AABB0051 /* Debug */ = {
@@ -317,6 +393,39 @@
 			};
 			name = Release;
 		};
+		AABB0121 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9323NBU86Q;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.9323nbu86q.applemusicplayertests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AppleMusicPlayer.app/AppleMusicPlayer";
+			};
+			name = Debug;
+		};
+		AABB0122 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9323NBU86Q;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.9323nbu86q.applemusicplayertests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AppleMusicPlayer.app/AppleMusicPlayer";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -334,6 +443,15 @@
 			buildConfigurations = (
 				AABB0071 /* Debug */,
 				AABB0072 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AABB0120 /* Build configuration list for PBXNativeTarget "AppleMusicPlayerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AABB0121 /* Debug */,
+				AABB0122 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

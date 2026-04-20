@@ -9,6 +9,9 @@ struct ContentView: View {
     private let skipOptions: [(String, Double)] = [
         ("1s", 1), ("3s", 3), ("5s", 5), ("10s", 10), ("30s", 30)
     ]
+    private func gapOptions(abDuration: Double) -> [(String, Double)] {
+        [("0s", 0), ("1s", 1), ("2s", 2), (formatTime(abDuration), abDuration)]
+    }
 
     var body: some View {
         NavigationStack {
@@ -96,9 +99,11 @@ struct ContentView: View {
                 Spacer()
 
                 if let a = controller.pointA, let b = controller.pointB {
-                    Text("Loop \(formatTime(b - a))")
+                    let modeLabel = controller.isOneShotEnabled ? "1×" : "Loop"
+                    let modeColor: Color = controller.isOneShotEnabled ? .orange : .blue
+                    Text("\(modeLabel) \(formatTime(b - a))")
                         .font(.system(.caption, design: .monospaced))
-                        .foregroundStyle(.blue)
+                        .foregroundStyle(modeColor)
                     Spacer()
                 }
 
@@ -215,6 +220,20 @@ struct ContentView: View {
                 }
                 .buttonStyle(.bordered)
 
+                // One Shot
+                Button {
+                    controller.toggleOneShot()
+                } label: {
+                    Label(
+                        controller.isOneShotEnabled ? "1× On" : "1×",
+                        systemImage: "arrow.forward.to.line"
+                    )
+                    .font(.caption)
+                }
+                .buttonStyle(.bordered)
+                .tint(controller.isOneShotEnabled ? .orange : nil)
+                .disabled(controller.pointA == nil || controller.pointB == nil)
+
                 // Toggle loop
                 Button {
                     controller.toggleABRepeat()
@@ -239,6 +258,23 @@ struct ContentView: View {
                 .buttonStyle(.plain)
                 .disabled(controller.pointA == nil && controller.pointB == nil)
             }
+
+            if controller.isABRepeatEnabled, let a = controller.pointA, let b = controller.pointB {
+                VStack(spacing: 4) {
+                    Text("Gap before loop")
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    HStack(spacing: 6) {
+                        ForEach(gapOptions(abDuration: b - a), id: \.0) { label, secs in
+                            Button(label) { controller.loopGapSeconds = secs }
+                                .buttonStyle(.bordered)
+                                .controlSize(.mini)
+                                .tint(controller.loopGapSeconds == secs ? .blue : .secondary)
+                        }
+                    }
+                }
+            }
         }
         .padding(14)
         .background(Color.secondary.opacity(0.07), in: RoundedRectangle(cornerRadius: 14))
@@ -258,19 +294,6 @@ struct ContentView: View {
         .disabled(!controller.isAuthorized)
     }
 
-    // MARK: - Helpers
-
-    private func formatTime(_ seconds: Double) -> String {
-        let s = max(0, seconds)
-        let h = Int(s) / 3600
-        let m = (Int(s) % 3600) / 60
-        let sec = Int(s) % 60
-        let tenths = Int((s - Double(Int(s))) * 10)
-        if h > 0 {
-            return String(format: "%d:%02d:%02d.%d", h, m, sec, tenths)
-        }
-        return String(format: "%d:%02d.%d", m, sec, tenths)
-    }
 }
 
 #Preview {

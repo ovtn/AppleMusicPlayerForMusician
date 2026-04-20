@@ -13,11 +13,15 @@ final class MusicController: ObservableObject {
     @Published var pointA: Double? = nil
     @Published var pointB: Double? = nil
     @Published var isABRepeatEnabled = false
+    @Published var isOneShotEnabled = false
+    @Published var loopGapSeconds: Double = 0
     @Published var isAuthorized = false
 
     let player = MPMusicPlayerController.applicationMusicPlayer
     private var pollingTimer: Timer?
+    private var gapTimer: Timer?
     private var isSeeking = false
+    private var isInGap = false
 
     private init() {
         configureAudioSession()
@@ -81,8 +85,26 @@ final class MusicController: ObservableObject {
         guard t.isFinite, t >= 0 else { return }
         playbackTime = t
 
-        if isABRepeatEnabled, isPlaying, let b = pointB, playbackTime >= b {
-            seekInternal(to: pointA ?? 0)
+        guard let b = pointB, isPlaying, playbackTime >= b else { return }
+
+        if isOneShotEnabled {
+            player.pause()
+        } else if isABRepeatEnabled, !isInGap {
+            if loopGapSeconds > 0 {
+                isInGap = true
+                player.pause()
+                gapTimer = Timer.scheduledTimer(withTimeInterval: loopGapSeconds, repeats: false) { [weak self] _ in
+                    Task { @MainActor [weak self] in
+                        guard let self, self.isInGap else { return }
+                        self.isInGap = false
+                        self.seekInternal(to: self.pointA ?? 0)
+                        self.player.play()
+                    }
+                }
+                RunLoop.main.add(gapTimer!, forMode: .common)
+            } else {
+                seekInternal(to: pointA ?? 0)
+            }
         }
     }
 
@@ -109,15 +131,20 @@ final class MusicController: ObservableObject {
         if player.playbackState == .playing {
             player.pause()
         } else {
+            if isOneShotEnabled, let a = pointA {
+                seekInternal(to: a)
+            }
             player.play()
         }
     }
 
     func seek(to time: Double) {
+        cancelGap()
         seekInternal(to: time)
     }
 
     func skip(by seconds: Double) {
+        cancelGap()
         seekInternal(to: playbackTime + seconds)
     }
 
@@ -152,12 +179,36 @@ final class MusicController: ObservableObject {
     func toggleABRepeat() {
         guard pointA != nil, pointB != nil else { return }
         isABRepeatEnabled.toggle()
-        if isABRepeatEnabled, let a = pointA { seekInternal(to: a) }
+        if isABRepeatEnabled {
+            isOneShotEnabled = false
+            cancelGap()
+            if let a = pointA { seekInternal(to: a) }
+        } else {
+            cancelGap()
+        }
+    }
+
+    func toggleOneShot() {
+        guard pointA != nil, pointB != nil else { return }
+        isOneShotEnabled.toggle()
+        if isOneShotEnabled {
+            isABRepeatEnabled = false
+            cancelGap()
+            if let a = pointA { seekInternal(to: a) }
+        }
+    }
+
+    private func cancelGap() {
+        gapTimer?.invalidate()
+        gapTimer = nil
+        isInGap = false
     }
 
     func clearAB() {
         pointA = nil
         pointB = nil
         isABRepeatEnabled = false
+        isOneShotEnabled = false
+        cancelGap()
     }
 }
