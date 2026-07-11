@@ -1,9 +1,11 @@
 import SwiftUI
 import MediaPlayer
+import MusicKit
 
 struct ContentView: View {
     @EnvironmentObject var controller: MusicController
     @State private var showPicker = false
+    @State private var showCatalogSearch = false
     @State private var skipSeconds: Double = 5
 
     private let skipOptions: [(String, Double)] = [
@@ -37,6 +39,9 @@ struct ContentView: View {
             }
             .ignoresSafeArea()
         }
+        .sheet(isPresented: $showCatalogSearch) {
+            CatalogSearchView()
+        }
     }
 
     // MARK: - Album Art
@@ -48,6 +53,10 @@ struct ContentView: View {
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: 200, height: 200)
+                    .clipShape(RoundedRectangle(cornerRadius: 16))
+                    .shadow(color: .black.opacity(0.25), radius: 12, y: 6)
+            } else if let artwork = controller.currentCatalogSong?.artwork {
+                ArtworkImage(artwork, width: 200)
                     .clipShape(RoundedRectangle(cornerRadius: 16))
                     .shadow(color: .black.opacity(0.25), radius: 12, y: 6)
             } else {
@@ -67,12 +76,14 @@ struct ContentView: View {
     // MARK: - Track Info
 
     private var trackInfoSection: some View {
-        VStack(spacing: 4) {
-            Text(controller.currentItem?.title ?? "No Song Selected")
+        let title = controller.currentItem?.title ?? controller.currentCatalogSong?.title ?? "No Song Selected"
+        let artist = controller.currentItem?.artist ?? controller.currentCatalogSong?.artistName ?? "—"
+        return VStack(spacing: 4) {
+            Text(title)
                 .font(.title3.bold())
                 .multilineTextAlignment(.center)
                 .lineLimit(2)
-            Text(controller.currentItem?.artist ?? "—")
+            Text(artist)
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
                 .lineLimit(1)
@@ -280,18 +291,30 @@ struct ContentView: View {
         .background(Color.secondary.opacity(0.07), in: RoundedRectangle(cornerRadius: 14))
     }
 
-    // MARK: - Choose Song
+    // MARK: - Song Source Buttons
 
     private var chooseSongButton: some View {
-        Button {
-            showPicker = true
-        } label: {
-            Label("Choose Song from Library", systemImage: "music.note.list")
-                .frame(maxWidth: .infinity)
+        VStack(spacing: 10) {
+            Button {
+                showCatalogSearch = true
+            } label: {
+                Label("Search Apple Music", systemImage: "magnifyingglass")
+                    .frame(maxWidth: .infinity)
+            }
+            .buttonStyle(.borderedProminent)
+            .controlSize(.large)
+            .disabled(true)
+
+            Button {
+                showPicker = true
+            } label: {
+                Label("Choose Song from Library", systemImage: "music.note.list")
+                    .frame(maxWidth: .infinity)
+            }
+            .buttonStyle(.bordered)
+            .controlSize(.large)
+            .disabled(!controller.isAuthorized)
         }
-        .buttonStyle(.borderedProminent)
-        .controlSize(.large)
-        .disabled(!controller.isAuthorized)
     }
 
 }

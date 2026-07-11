@@ -20,6 +20,7 @@
 		AABB0114 /* TimeFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABB0111 /* TimeFormatterTests.swift */; };
 		AABB0115 /* ABRepeatLogicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABB0112 /* ABRepeatLogicTests.swift */; };
 		AABB0116 /* DoubleExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABB0113 /* DoubleExtensionsTests.swift */; };
+		CD8175BA5F0DC5E737E95D8F /* CatalogSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E9F14B342ED85585F45920 /* CatalogSearchView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,6 +34,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		08E9F14B342ED85585F45920 /* CatalogSearchView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CatalogSearchView.swift; sourceTree = "<group>"; };
 		AABB0010 /* AppleMusicPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AppleMusicPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AABB0011 /* AppleMusicPlayerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleMusicPlayerApp.swift; sourceTree = "<group>"; };
 		AABB0012 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -76,6 +78,7 @@
 				AABB0101 /* ABRepeatLogic.swift */,
 				AABB0016 /* Assets.xcassets */,
 				AABB0019 /* Info.plist */,
+				08E9F14B342ED85585F45920 /* CatalogSearchView.swift */,
 			);
 			path = AppleMusicPlayer;
 			sourceTree = "<group>";
@@ -215,6 +218,7 @@
 				AABB0005 /* ProgressBarView.swift in Sources */,
 				AABB0102 /* Helpers.swift in Sources */,
 				AABB0103 /* ABRepeatLogic.swift in Sources */,
+				CD8175BA5F0DC5E737E95D8F /* CatalogSearchView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -248,7 +252,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 9323NBU86Q;
 				INFOPLIST_FILE = AppleMusicPlayer/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.9323nbu86q.applemusicplayer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -268,7 +272,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 9323NBU86Q;
 				INFOPLIST_FILE = AppleMusicPlayer/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.9323nbu86q.applemusicplayer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -400,7 +404,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9323NBU86Q;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.9323nbu86q.applemusicplayertests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -416,7 +420,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9323NBU86Q;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.9323nbu86q.applemusicplayertests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;

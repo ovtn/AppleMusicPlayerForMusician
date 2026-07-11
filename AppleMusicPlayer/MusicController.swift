@@ -1,6 +1,7 @@
 import Foundation
 import MediaPlayer
 import AVFoundation
+import MusicKit
 
 @MainActor
 final class MusicController: ObservableObject {
@@ -8,6 +9,7 @@ final class MusicController: ObservableObject {
 
     @Published var isPlaying = false
     @Published var currentItem: MPMediaItem? = nil
+    @Published var currentCatalogSong: Song? = nil
     @Published var playbackTime: Double = 0
     @Published var duration: Double = 0
     @Published var pointA: Double? = nil
@@ -16,6 +18,10 @@ final class MusicController: ObservableObject {
     @Published var isOneShotEnabled = false
     @Published var loopGapSeconds: Double = 0
     @Published var isAuthorized = false
+    @Published var isMusicKitAuthorized = false
+    @Published var catalogSearchResults: MusicItemCollection<Song> = []
+    @Published var isSearching = false
+    @Published var catalogSearchError: String? = nil
 
     let player = MPMusicPlayerController.applicationMusicPlayer
     private var pollingTimer: Timer?
@@ -28,6 +34,7 @@ final class MusicController: ObservableObject {
         setupNotifications()
         startPolling()
         requestAuthorization()
+        Task { await requestMusicKitAuthorization() }
     }
 
     deinit {
@@ -118,11 +125,57 @@ final class MusicController: ObservableObject {
 
     private func syncNowPlayingItem() {
         currentItem = player.nowPlayingItem
-        duration = currentItem?.playbackDuration ?? 0
+        if currentItem != nil { currentCatalogSong = nil }
+        duration = currentItem?.playbackDuration ?? currentCatalogSong?.duration ?? 0
         clearAB()
     }
 
     // MARK: - Playback controls
+
+    // MARK: - MusicKit / Catalog
+
+    func requestMusicKitAuthorization() async {
+        let status = await MusicAuthorization.request()
+        isMusicKitAuthorized = status == .authorized
+        if status != .authorized {
+            catalogSearchError = "Apple Music access not granted (status: \(status)). Go to Settings > Privacy & Security > Media & Apple Music and enable access for this app."
+        }
+    }
+
+    func searchCatalog(query: String) async {
+        guard !query.isEmpty else {
+            catalogSearchResults = []
+            catalogSearchError = nil
+            return
+        }
+        isSearching = true
+        catalogSearchError = nil
+        defer { isSearching = false }
+        do {
+            var request = MusicCatalogSearchRequest(term: query, types: [Song.self])
+            request.limit = 25
+            let response = try await request.response()
+            catalogSearchResults = response.songs
+        } catch {
+            catalogSearchResults = []
+            catalogSearchError = error.localizedDescription
+        }
+    }
+
+    func playCatalogSong(_ song: Song) async {
+        do {
+            ApplicationMusicPlayer.shared.queue = ApplicationMusicPlayer.Queue(for: [song])
+            try await ApplicationMusicPlayer.shared.play()
+            currentCatalogSong = song
+            currentItem = nil
+            duration = song.duration ?? 0
+            clearAB()
+        } catch {
+            print("Failed to play catalog song: \(error)")
+        }
+    }
+
+    // MARK: - Library
 
     func playItems(_ items: [MPMediaItem]) {
         guard !items.isEmpty else { return }
@@ -171,10 +224,8 @@ final class MusicController: ObservableObject {
 
     func setPointA() {
         pointA = playbackTime
-        if let b = pointB, b <= playbackTime {
-            pointB = nil
-            isABRepeatEnabled = false
-        }
+        pointB = nil
+        isABRepeatEnabled = false
     }
 
     func setPointB() {
@@ -182,6 +233,8 @@ final class MusicController: ObservableObject {
         if let a = pointA, a >= playbackTime {
             pointA = nil
             isABRepeatEnabled = false
+        } else if pointA != nil, !isOneShotEnabled {
+            isABRepeatEnabled = true
         }
     }
 
