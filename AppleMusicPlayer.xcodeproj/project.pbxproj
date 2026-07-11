@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0E6FE1F6221955686AB442A2 /* MusicControllerABTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28DE1DB241897948453CF9EE /* MusicControllerABTests.swift */; };
 		AABB0001 /* AppleMusicPlayerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABB0011 /* AppleMusicPlayerApp.swift */; };
 		AABB0002 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABB0012 /* ContentView.swift */; };
 		AABB0003 /* MusicController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABB0013 /* MusicController.swift */; };
@@ -35,6 +36,7 @@
 
 /* Begin PBXFileReference section */
 		08E9F14B342ED85585F45920 /* CatalogSearchView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CatalogSearchView.swift; sourceTree = "<group>"; };
+		28DE1DB241897948453CF9EE /* MusicControllerABTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MusicControllerABTests.swift; sourceTree = "<group>"; };
 		AABB0010 /* AppleMusicPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AppleMusicPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AABB0011 /* AppleMusicPlayerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleMusicPlayerApp.swift; sourceTree = "<group>"; };
 		AABB0012 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -117,6 +119,7 @@
 				AABB0111 /* TimeFormatterTests.swift */,
 				AABB0112 /* ABRepeatLogicTests.swift */,
 				AABB0113 /* DoubleExtensionsTests.swift */,
+				28DE1DB241897948453CF9EE /* MusicControllerABTests.swift */,
 			);
 			path = AppleMusicPlayerTests;
 			sourceTree = "<group>";
@@ -229,6 +232,7 @@
 				AABB0114 /* TimeFormatterTests.swift in Sources */,
 				AABB0115 /* ABRepeatLogicTests.swift in Sources */,
 				AABB0116 /* DoubleExtensionsTests.swift in Sources */,
+				0E6FE1F6221955686AB442A2 /* MusicControllerABTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
