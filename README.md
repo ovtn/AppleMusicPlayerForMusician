@@ -5,10 +5,13 @@ An iOS app built for musicians who transcribe music. It plays tracks from your A
 ## Features
 
 ### A-B Loop
-Set two points (A and B) on the progress bar and loop the region between them. The A-B region is highlighted on the scrubber so you always know where you are.
+Set two points (A and B) on the progress bar to define a region. Setting A always clears B so you start fresh from a new anchor point. Setting B automatically enables looping — no extra button press needed. The A-B region is highlighted on the scrubber so you always know where you are.
 
 ### One Shot (1×)
-Play from A to B exactly once, then stop. Press play again to repeat from A. Useful when you want to hear a passage at your own pace rather than on a continuous loop.
+Play from A to B exactly once, then stop. Press play again to repeat from A. When One Shot is active, setting B does not auto-enable loop. Useful when you want to hear a passage at your own pace rather than on a continuous loop.
+
+### Loop Toggle
+After loop is auto-enabled by setting B, you can toggle it off to leave the A-B markers in place without looping — handy when you want to scrub freely within the region.
 
 ### Loop with Gap
 When looping, insert a configurable pause between reaching B and returning to A. Choose from 0s, 1s, 2s, or the exact duration of the A-B region itself. The gap gives you time to write down what you just heard before the next repeat starts.
@@ -18,9 +21,12 @@ When looping, insert a configurable pause between reaching B and returning to A.
 - Playback time displayed in `M:SS.t` format (tenth-of-second precision)
 - Skip buttons with selectable intervals: 1s, 3s, 5s, 10s, 30s
 
+### Apple Music Catalog Search *(requires Apple Developer Program)*
+The app includes a catalog search interface built on MusicKit. The feature is disabled by default — to enable it, join the Apple Developer Program, enable MusicKit for the App ID in the developer portal, and change `disabled(true)` to `disabled(!controller.isMusicKitAuthorized)` in `ContentView.swift`.
+
 ## Requirements
 
-- iOS 16.0+
+- iOS 17.0+
 - Apple Music library access
 
 ## Build
